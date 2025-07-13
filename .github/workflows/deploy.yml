@@ -1,0 +1,31 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-workflow.json
+
+name: Deploy
+
+on:
+  schedule:
+    - cron: "29 2 * * 1"  # every Monday at 02:29 UTC   https://crontab.guru/#29_2_*_*_1
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: superfly/flyctl-actions/setup-flyctl@1.5
+    - name: flyctl deploy
+      run: |
+        for _ in 1 2; do
+          flyctl deploy \
+            --app "${{ secrets.FLY_APP }}" \
+            --config fly.template.toml \
+            --remote-only \
+            && break  # break from `for` loop if successful
+          sleep 60  # sleep for 1 minute if failed
+        done
+      env:
+        FLY_API_TOKEN: ${{ secrets.FLY_DEPLOY_TOKEN }}
