@@ -14,6 +14,10 @@ cleanup:
 	@flyctl ssh console --command "readeck cleanup -config config.toml"
 .PHONY: cleanup
 
+backup:
+	@./bin/backup.sh
+.PHONY: backup
+
 restart:
 	@flyctl scale count 0 --process-group web --yes
 	@flyctl scale count 1 --process-group web --yes
