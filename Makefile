@@ -18,6 +18,10 @@ backup: wake
 	@./bin/backup.sh
 .PHONY: backup
 
+content-scripts: wake
+	@./bin/upload-content-scripts.sh
+.PHONY: content-scripts
+
 restart:
 	@flyctl scale count 0 --process-group web --yes
 	@flyctl scale count 1 --process-group web --yes
