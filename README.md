@@ -21,3 +21,12 @@ What I personally do:
 2. Run `flyctl certs add your-custom-domain.example.com`
 
 ... and that's it. You're up and running.
+
+## content scripts
+
+I have my own content scripts here too. [Example.](./content-scripts/github-readme.js)
+If you want to use them on your server, you can upload them via:
+
+```bash
+make content-scripts
+```
