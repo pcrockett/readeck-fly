@@ -6,15 +6,15 @@ deploy:
 	@flyctl deploy
 .PHONY: deploy
 
-ssh:
+ssh: wake
 	@flyctl ssh console
 .PHONY: ssh
 
-cleanup:
+cleanup: wake
 	@flyctl ssh console --command "readeck cleanup -config config.toml"
 .PHONY: cleanup
 
-backup:
+backup: wake
 	@./bin/backup.sh
 .PHONY: backup
 
@@ -38,6 +38,11 @@ release:
 deploy-token:
 	@flyctl tokens create deploy
 .PHONY: deploy-token
+
+wake:
+	@echo "Waking up server..."
+	@curl "https://$(shell flyctl status --json | jq --raw-output .Hostname)" &>/dev/null
+.PHONY: wake
 
 fly.toml: fly.template.toml
 	@cp fly.template.toml fly.toml

@@ -5,9 +5,6 @@ init() {
     BACKUP_DIR="backup"
     NOW_UTC="$(date -Iminutes -u)"  # cryptic flags for busybox compatibility
     BACKUP_ARCHIVE="${BACKUP_DIR}/${NOW_UTC}.zip"
-
-    step "Waking up server..."
-    curl "${READECK_ROOT_URL}" &> /dev/null
 }
 
 step() {
