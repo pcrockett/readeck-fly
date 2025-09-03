@@ -1,7 +1,7 @@
 exports.isActive = function () {
   const matches = $.url.match(
-    // https://regexr.com/8grrn
-    /^https:\/\/github.com\/[a-z-_]+\/[a-z-_]+\/?(\?.*)*$/gi,
+    // <https://regexr.com/8gtio>
+    /^https:\/\/github.com\/[a-z-_0-9]+\/[a-z-_0-9]+\/?(\?.*)*$/gi,
   );
   return Array.isArray(matches) && matches.length > 0;
 };
