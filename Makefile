@@ -1,3 +1,7 @@
+lint:
+	pre-commit run --all-files
+.PHONY: lint
+
 launch: fly.toml
 	@flyctl launch --copy-config --yes
 .PHONY: launch
