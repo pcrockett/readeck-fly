@@ -24,11 +24,18 @@ exit
 
   step "Downloading archive..."
   flyctl ssh sftp get "${BACKUP_ARCHIVE}"
-
   mkdir -p backup
   mv "${NOW_UTC}.zip" backup
 
+  pushd backup &>/dev/null
+  rm -rf contents.new # in case there's a left-over file from a previous error
+  unzip "${NOW_UTC}.zip" -d contents.new
+  rm -rf contents
+  mv contents.new contents
+  rm "${NOW_UTC}.zip"
+
   step "Cleaning up..."
+  popd &>/dev/null
   flyctl ssh console --command "rm -r '${BACKUP_DIR}'"
 
   exit $?
