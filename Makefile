@@ -48,5 +48,9 @@ wake:
 	@curl "https://$(shell flyctl status --json | jq --raw-output .Hostname)" &>/dev/null
 .PHONY: wake
 
+hister:
+	hister import readeck "$(READECK_ROOT_URL)"
+.PHONY: hister
+
 fly.toml: fly.template.toml
 	@cp fly.template.toml fly.toml

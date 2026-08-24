@@ -1,0 +1,5 @@
+# shellcheck shell=bash
+strict_env
+
+export READECK_ROOT_URL="https://readeck.example.com/"
+export HISTER_IMPORT_READECK_TOKEN="TODO: generate read-only token in readeck UI"
