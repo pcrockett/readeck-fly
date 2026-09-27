@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           persist-credentials: false
-      - uses: pcrockett/setup-fly@991c9671f191b7475107af6f5553be83e837f8cc  # v0.1.5
+      - uses: pcrockett/setup-fly@c78096af68c3ad5998acce5962a1adadb2a507b5  # v0.1.6
       - name: flyctl deploy
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_DEPLOY_TOKEN }}
