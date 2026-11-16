@@ -11,9 +11,9 @@ make launch
 
 ## custom domain (optional)
 
-You are certainly welcome to use your default `app-name.fly.dev` if you want, however
-if you want your app to run behind your own custom domain, you can check out [Fly's
-official docs on how to do that](https://fly.io/docs/networking/custom-domain/).
+You are certainly welcome to use your default `app-name.fly.dev` if you want, however if
+you want your app to run behind your own custom domain, you can check out
+[Fly's official docs on how to do that](https://fly.io/docs/networking/custom-domain/).
 
 What I personally do:
 
