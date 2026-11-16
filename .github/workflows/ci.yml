@@ -11,19 +11,24 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
 
   lint:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           persist-credentials: false
-
-      - uses: pcrockett/setup-shfmt@bf26c86e340dc10783e5c105cf09a459a6b45751  # v0.1.2
-      - uses: pcrockett/setup-yamlfmt@2949e59bb1f6d24f519d0dfa2560a0dbcd563fcc  # v0.1.1
-      - uses: pcrockett/setup-pre-commit@90e294bdac0418fdec979074854d3019f76f59ea  # v0.1.3
-
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9  # v6.1.0
+        with:
+          path: ~/.cache/pre-commit
+          key: pre-commit-hooks|${{ hashFiles('.pre-commit-config.yaml') }}
+      - uses: jdx/mise-action@236a21c3b91f5db6d4e174b348674a0f0caac06d  # v5.2.9
       - run: make lint

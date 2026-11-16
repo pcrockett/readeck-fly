@@ -4,11 +4,15 @@ name: Deploy
 
 on:
   schedule:
-    - cron: "29 2 * * 1"  # every Sunday at 02:29 UTC <https://crontab.guru/#29_2_*_*_0>
+    - cron: "29 2 * * 1"  # every Monday at 02:29 UTC <https://crontab.guru/#29_2_*_*_1>
   workflow_dispatch:
 
 permissions:
   contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -18,7 +22,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           persist-credentials: false
-      - uses: pcrockett/setup-fly@7316ac96e639a499255d54da54655df7f817fe0e  # v0.1.9
+      - uses: jdx/mise-action@236a21c3b91f5db6d4e174b348674a0f0caac06d  # v5.2.9
       - name: flyctl deploy
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_DEPLOY_TOKEN }}
