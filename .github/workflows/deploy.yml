@@ -26,12 +26,13 @@ jobs:
       - name: flyctl deploy
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_DEPLOY_TOKEN }}
+          FLY_APP: ${{ secrets.FLY_APP }}
           HEALTHCHECK_URL: ${{ secrets.HEALTHCHECK_URL }}
         run: |
           test "${HEALTHCHECK_URL:-}" = "" || curl "${HEALTHCHECK_URL}/start"
           for _ in 1 2; do
             flyctl deploy \
-              --app "${{ secrets.FLY_APP }}" \
+              --app "${FLY_APP}" \
               --config fly.template.toml \
               --remote-only \
               && break  # break from `for` loop if successful
