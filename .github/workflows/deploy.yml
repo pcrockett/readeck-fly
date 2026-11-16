@@ -30,12 +30,17 @@ jobs:
           HEALTHCHECK_URL: ${{ secrets.HEALTHCHECK_URL }}
         run: |
           test "${HEALTHCHECK_URL:-}" = "" || curl "${HEALTHCHECK_URL}/start"
+          STATUS="fail"
           for _ in 1 2; do
-            flyctl deploy \
-              --app "${FLY_APP}" \
-              --config fly.template.toml \
-              --remote-only \
-              && break  # break from `for` loop if successful
-            sleep 60  # sleep for 1 minute if failed
+            if flyctl deploy \
+                --app "${FLY_APP}" \
+                --config fly.template.toml \
+                --remote-only; then
+              STATUS="success"
+              break  # break from retry loop
+            else
+              sleep 60  # sleep for 1 minute before retrying
+            fi
           done
+          test "${STATUS}" == "success"
           test "${HEALTHCHECK_URL:-}" = "" || curl "${HEALTHCHECK_URL}"
